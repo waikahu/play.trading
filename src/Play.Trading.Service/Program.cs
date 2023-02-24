@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Play.Common.HealthChecks;
 using Play.Common.Identity;
 using Play.Common.MassTransit;
 using Play.Common.MongoDB;
@@ -38,6 +39,8 @@ builder.Services.AddControllers(opt =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddHealthChecks().AddMongoDb();
+
 builder.Services.AddSingleton<IUserIdProvider, UserIdProvider>()
     .AddSingleton<MessageHub>()
     .AddSignalR();
@@ -65,6 +68,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapHub<MessageHub>("/messagehub");
+app.MapPlayEconomyHealthChecks();
 
 app.Run();
 
