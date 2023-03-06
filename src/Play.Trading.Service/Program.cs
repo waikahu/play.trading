@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Play.Common.Configuration;
 using Play.Common.HealthChecks;
 using Play.Common.Identity;
 using Play.Common.MassTransit;
@@ -22,6 +23,8 @@ using Play.Trading.Service.SignalR;
 using Play.Trading.Service.StateMachines;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.ConfigureAzureKeyVault();
 
 builder.Services.AddMongo()
     .AddMongoRepository<CatalogItem>("catalogitems")
