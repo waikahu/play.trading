@@ -8,18 +8,18 @@ namespace Play.Trading.Service.Consumers
 {
     public class CatalogItemUpdatedConsumer : IConsumer<CatalogItemUpdated>
     {
-        private readonly IRepository<CatalogItem> _repository;
+        private readonly IRepository<CatalogItem> repository;
 
         public CatalogItemUpdatedConsumer(IRepository<CatalogItem> repository)
         {
-            _repository = repository;
+            this.repository = repository;
         }
 
         public async Task Consume(ConsumeContext<CatalogItemUpdated> context)
         {
             var message = context.Message;
 
-            var item = await _repository.GetAsync(message.ItemId);
+            var item = await repository.GetAsync(message.ItemId);
 
             if (item == null)
             {
@@ -31,14 +31,15 @@ namespace Play.Trading.Service.Consumers
                     Price = message.Price
                 };
 
-                await _repository.CreateAsync(item);
+                await repository.CreateAsync(item);
             }
             else
             {
                 item.Name = message.Name;
                 item.Description = message.Description;
+                item.Price = message.Price;
 
-                await _repository.UpdateAsync(item);
+                await repository.UpdateAsync(item);
             }
         }
     }

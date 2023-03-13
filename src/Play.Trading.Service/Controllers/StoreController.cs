@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Play.Common;
+using Play.Trading.Service.Dtos;
 using Play.Trading.Service.Entities;
 
 namespace Play.Trading.Service.Controllers

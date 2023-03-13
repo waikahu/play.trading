@@ -5,6 +5,8 @@ using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Play.Trading.Service.Contracts;
+using Play.Trading.Service.Dtos;
 using Play.Trading.Service.StateMachines;
 
 namespace Play.Trading.Service.Controllers
