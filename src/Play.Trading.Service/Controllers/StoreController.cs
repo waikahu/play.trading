@@ -14,17 +14,18 @@ namespace Play.Trading.Service.Controllers
     [Authorize]
     public class StoreController : ControllerBase
     {
-        private readonly IRepository<CatalogItem> _catalogRepository;
-        private readonly IRepository<ApplicationUser> _usersRepository;
-        private readonly IRepository<InventoryItem> _inventoryRepository;
+        private readonly IRepository<CatalogItem> catalogRepository;
+        private readonly IRepository<ApplicationUser> usersRepository;
+        private readonly IRepository<InventoryItem> inventoryRepository;
 
-        public StoreController(IRepository<CatalogItem> catalogRepository, 
-            IRepository<ApplicationUser> usersRepository, 
+        public StoreController(
+            IRepository<CatalogItem> catalogRepository,
+            IRepository<ApplicationUser> usersRepository,
             IRepository<InventoryItem> inventoryRepository)
         {
-            _catalogRepository = catalogRepository;
-            _usersRepository = usersRepository;
-            _inventoryRepository = inventoryRepository;
+            this.catalogRepository = catalogRepository;
+            this.usersRepository = usersRepository;
+            this.inventoryRepository = inventoryRepository;
         }
 
         [HttpGet]
@@ -32,11 +33,11 @@ namespace Play.Trading.Service.Controllers
         {
             string userId = User.FindFirstValue("sub");
 
-            var catalogItems = await _catalogRepository.GetAllAsync();
-            var inventoryItems = await _inventoryRepository.GetAllAsync(
+            var catalogItems = await catalogRepository.GetAllAsync();
+            var inventoryItems = await inventoryRepository.GetAllAsync(
                 item => item.UserId == Guid.Parse(userId)
             );
-            var user = await _usersRepository.GetAsync(Guid.Parse(userId));
+            var user = await usersRepository.GetAsync(Guid.Parse(userId));
 
             var storeDto = new StoreDto(
                 catalogItems.Select(catalogItem =>
